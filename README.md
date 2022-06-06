@@ -2,22 +2,27 @@
 
 Welcome to our Data and Model Drift Repository! Things in our world are permanently changing. For machine learning, this means that productive models are confronted with unknown data and can become outdated. A proactive drift management approach is required to ensure that productive AI services deliver consistent business value over the long term.
 
-Please check out our background article [Getting traction on Data and Model Drift with Azure Machine Learning](https://medium.com/p/ebd240176b8b/edit) for an in-depth discussion about the concepts used in this repo.
+Please check out our background article [Getting traction on Data and Model Drift with Azure Machine Learning](https://medium.com/p/ebd240176b8b/edit) for an in-depth discussion about the concepts used in this repository.
 
 Starting with tabular data use cases, we provide the [following samples](tabular-data/DATA_MODEL_DRIFT.ipynb) to detect and mitigate data and model drift:
 
 ### 1. Statistical tests and expressive visualizations to detect and analyze drift in features and model predictions
 
-<img src="media/data-drift-kde-short.png" alt="KDE intersections to identify data drift" width="600"/>
+<img src="media/data-drift-kde-short.png" alt="KDE intersections to identify data drift" width="800"/>
 
+For a predictive maintenance example, we inspect the amount of drift by comparing the distributions of training data ("reference") and the production inference observations ("current"). The statistical tests prove significant drift for two input features heat_deviation and speed_deviation. Furthermore, the Kernel Density Estimation (KDE) plots help us to understand the amount and direction of data drift. 
 
 ### 2. A predictive approach to identify the impact of data and concept drift on the model
 
-<img src="media/probas-combined.png" alt="Model drift impact on predicted class probabilities" width="600"/>
+<img src="media/probas-combined.png" alt="Model drift impact on predicted class probabilities" width="800"/>
 
-### 3. Sample code for creating automated Pipelines to identify data drift regularly as part of an MLOps solution using Azure Machine Learning
+Here, we compare the performrmance of two classifiers in predicting the most recent inference observations. The classifier which is trained on current data outperforms the initial model. The diagrams show the corresponding drift in predicted probabilities for the positive class.
 
-<img src="media/evergreen-mlops.png" alt="MLOps architecture for evergreen models" width="600"/>
+### 3. Creating automated pipelines to identify data drift regularly as part of an MLOps architecture
+
+<img src="media/evergreen-mlops.png" alt="MLOps architecture for evergreen models" width="800"/>
+
+Data and model drift management should be part of an overall MLOps solution. Here, we provide sample code for automated drift detection using Azure Machine Learning Pipelines.
 
 ## Contributing
 
