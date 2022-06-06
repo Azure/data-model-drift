@@ -1,0 +1,8 @@
+scikit-learn
+lightgbm
+evidently
+pandas
+matplotlib
+scipy
+numpy
+azureml-core

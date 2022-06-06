@@ -1,10 +1,10 @@
-# Project
+# Getting Traction on Data and Model Drift
 
-Welcome to our Data and Model Drift Repository! Things in our world are permanently changing. For machine learning, this means that productive models are confronted with unknown data and can become outdated. A proactive drift management approach is required to ensure that productive AI services deliver consistent business value over the long term.
+Welcome to our Data and Model Drift Repository! The environment of our world is constantly  changing. For machine learning, this means that deployed models are confronted with unknown data and can become outdated over time. A proactive drift management approach is required to ensure that productive AI services deliver consistent business value in the long term.
 
-Please check out our background article [Getting traction on Data and Model Drift with Azure Machine Learning](https://medium.com/p/ebd240176b8b/edit) for an in-depth discussion about the concepts used in this repository.
+Check out our background article [Getting traction on Data and Model Drift with Azure Machine Learning](https://medium.com/p/ebd240176b8b/edit) for an in-depth discussion about the concepts used in this repository.
 
-Starting with tabular data use cases, we provide the [following samples](tabular-data/DATA_MODEL_DRIFT.ipynb) to detect and mitigate data and model drift:
+Starting with tabular data use cases, we provide the [following examples](tabular-data/DATA_MODEL_DRIFT.ipynb) to detect and mitigate data and model drift:
 
 ### 1. Statistical tests and expressive visualizations to detect and analyze drift in features and model predictions
 
