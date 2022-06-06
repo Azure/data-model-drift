@@ -1,17 +1,23 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+Welcome to our Data and Model Drift Repository! Things in our world are permanently changing. For machine learning, this means that productive models are confronted with unknown data and can become outdated. A proactive drift management approach is required to ensure that productive AI services deliver consistent business value over the long term.
 
-As the maintainer of this project, please make a few updates:
+Please check out our background article [Getting traction on Data and Model Drift with Azure Machine Learning](https://medium.com/p/ebd240176b8b/edit) for an in-depth discussion about the concepts used in this repo.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+Starting with tabular data use cases, we provide the [following samples](tabular-data/DATA_MODEL_DRIFT.ipynb) to detect and mitigate data and model drift:
 
-Here are my test changes! And here is more!
+### 1. Statistical tests and expressive visualizations to detect and analyze drift in features and model predictions
 
+<img src="media/data-drift-kde-short.png" alt="KDE intersections to identify data drift" width="600"/>
+
+
+### 2. A predictive approach to identify the impact of data and concept drift on the model
+
+<img src="media/probas-combined.png" alt="Model drift impact on predicted class probabilities" width="600"/>
+
+### 3. Sample code for creating automated Pipelines to identify data drift regularly as part of an MLOps solution using Azure Machine Learning
+
+<img src="media/evergreen-mlops.png" alt="MLOps architecture for evergreen models" width="600"/>
 
 ## Contributing
 
