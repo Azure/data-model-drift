@@ -5,4 +5,7 @@ matplotlib
 scipy
 numpy
 azureml-core
+azureml-dataset-runtime
+azureml-pipeline
+azureml-widgets
 ipykernel
