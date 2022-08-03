@@ -1,4 +1,6 @@
 from matplotlib import pyplot as plt
+import time
+from pathlib import Path
 #%config InlineBackend.figure_format='retina'
 
 import pandas as pd
@@ -8,12 +10,8 @@ import os
 import json
 import sys
 from scipy.stats import ks_2samp, chisquare, chi2_contingency, gaussian_kde
-
 from sklearn.compose import ColumnTransformer, make_column_selector as selector
-from sklearn.pipeline import Pipeline
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
-from azureml.core import Workspace, Dataset, Run
+
 
 def distribution_intersection_area(A, B):
     """
@@ -148,74 +146,53 @@ def none_or_str(value):
     return value
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--reference_dataset', type=str)
-parser.add_argument('--current_dataset', type=str)
+parser.add_argument('--drift_plot_path', type=str)
+parser.add_argument('--tansformed_data_path', type=str)
 parser.add_argument('--threshold', type=float)
-parser.add_argument('--shortlist',nargs='*', type=none_or_str, default=[])
 args = parser.parse_args()
 
-reference_dataset = args.reference_dataset
-current_dataset = args.current_dataset
-shortlist = args.shortlist
+drift_plot_path = args.drift_plot_path
+tansformed_data_path = args.tansformed_data_path
 threshold = args.threshold # flag a variable as drifted if p-value is below the threshold
 
 
-##################################
-######## LOAD AML DATASETS #######
-##################################
+lines = [
+    f"Input path: {tansformed_data_path}",
+    f"Output path: {drift_plot_path}",
+]
 
-run = Run.get_context()
-ws = run.experiment.workspace   
+for line in lines:
+    print(line)
 
-reference = Dataset.get_by_name(ws, name=reference_dataset).to_pandas_dataframe() # reference dataset (A)
-current = Dataset.get_by_name(ws, name=current_dataset).to_pandas_dataframe() # current dataset (B)
-
-print("PREPROCESS DATASET AND ENCODE CATEGORICAL VARIABLES")
 
 ##################################
-##### PREPROCESS CATEGORICALS ####
+###### LOAD DATASETS FROM PREVIOUS PIPELINE #####
 ##################################
+print("mounted_path files: ")
+arr = os.listdir(tansformed_data_path)
+print(arr)
 
-# -------------------------
-# LABEL ENCODE 
+df_list = []
+for filename in arr:
+    if ".csv" in filename:
+        print("reading file: %s ..." % filename)
+        with open(os.path.join(tansformed_data_path, filename), "r") as handle:
+            input_df = pd.read_csv((Path(tansformed_data_path) / filename))
+            df_list.append(input_df)
+
+# Retrieve the current and reference datasets, those come from the previous pipeline
+reference = df_list[0]
+current = df_list[1]
 
 # use shortlist if exists, else all columns from reference
-columns = reference.columns if shortlist == [None] else shortlist
+columns = list(reference.columns) #if shortlist == [] else shortlist
 
-# identify numerical and categorical columns
+# identify numerical and categorical columns as those are needed to determine the drift detection method
 numerical_columns_selector = selector(dtype_exclude=object)
 categorical_columns_selector = selector(dtype_include=object)
 
 numerical_columns = numerical_columns_selector(reference[columns])
 categorical_columns = categorical_columns_selector(reference[columns])
-   
-# label encoding for plots of categorical columns
-categorical_transformer = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
-
-reference_le = categorical_transformer.fit_transform(reference[categorical_columns])
-reference_le = pd.DataFrame(reference_le)
-reference_le.columns = categorical_columns
-
-current_le = categorical_transformer.transform(current[categorical_columns])
-current_le = pd.DataFrame(current_le)
-current_le.columns = categorical_columns
-
-print(f'numerical columns: {numerical_columns}')
-print(f'categorical columns: {categorical_columns}')
-
-# -------------------------
-# IMPUTE MISSING VALUES
-
-imp_mode = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
-current_le = imp_mode.fit_transform(current_le[categorical_columns])
-current_le = pd.DataFrame(current_le)
-current_le.columns = categorical_columns
-
-imp_mode = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
-reference_le = imp_mode.fit_transform(reference_le[categorical_columns])
-reference_le = pd.DataFrame(reference_le)
-reference_le.columns = categorical_columns
-
 
 ##################################
 ############### PLOT #############
@@ -299,7 +276,12 @@ for k, col in enumerate(columns):
 drift_stat = f'Drift identified in {drift_cols} of {len(columns)} columns ({drift_cols/len(columns) * 100:.1f} %).'
 plt.suptitle(drift_stat, y=0.94, fontsize = 18)
 
-plt.show()
+# -------------------------
+# SAVE FILES
 
-data_drift_plot = plt.gcf()
-run.log_image(name='Distribution KDE overlap', plot=data_drift_plot, description = 'Data drift between reference & observed distribution')
+#create folder if folder does not exist already. We will save the files here
+#Path(drift_plot_path).mkdir(parents=True, exist_ok=True)
+print(f"Saving to{drift_plot_path}")
+date = time.strftime("%Y-%m-%d")
+plt.savefig((Path(drift_plot_path) / f"drift_detection_{date}.png"))
+

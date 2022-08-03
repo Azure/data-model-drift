@@ -1,0 +1,23 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: measure_data_drift
+display_name: Data_Model_Drift
+version: 1
+type: command
+inputs:
+  tansformed_data_path: 
+    type: uri_folder
+  threshold:
+    type: number
+outputs:
+  drift_plot_path: 
+    type: uri_folder 
+    mode: upload
+code: ./data_drift_src
+environment: azureml:data-model-drift-env@latest
+command: >-
+  python data_drift.py 
+  --tansformed_data_path ${{inputs.tansformed_data_path}} 
+  --threshold ${{inputs.threshold}}
+  --drift_plot_path ${{outputs.drift_plot_path}}
+# </component>

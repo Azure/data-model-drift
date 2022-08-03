@@ -46,14 +46,12 @@ for filename in arr:
     if ".csv" in filename:
         print("reading file: %s ..." % filename)
         with open(os.path.join(input_path, filename), "r") as handle:
-            # print (handle.read())
-            # ('input_df_%s' % filename) = pd.read_csv((Path(args.training_data) / filename))
             input_df = pd.read_csv((Path(input_path) / filename))
             df_list.append(input_df)
             dataset_names.append(filename)
 
 
-# Prep the green and yellow taxi data
+# Retrieve the current and reference datasets
 reference = df_list[0]
 current = df_list[1]
 
@@ -107,6 +105,10 @@ if categorical_columns != []:
     reference_le = pd.DataFrame(reference_le)
     reference_le.columns = categorical_columns
 
+# join categorical and numerical values back
+reference_joined = pd.concat([reference[numerical_columns], reference_le], axis=1)
+current_joined = pd.concat([current[numerical_columns], current_le], axis=1)
+
 
 # -------------------------
 # SAVE FILES
@@ -115,12 +117,6 @@ if categorical_columns != []:
 #Path(output_path).mkdir(parents=True, exist_ok=True)
 print(f"Saving to{output_path}")
 
-#reference_le.to_csv(
-#     f"{output_path}{reference_name}_processed.csv"
-#)
-#current_le.to_csv(
-#     f"{output_path}{current_name}_processed.csv"
-#)
-reference_le = reference_le.to_csv((output_path / f"{reference_name}_processed.csv"))
-current_le = current_le.to_csv((output_path / f"{current_name}_processed.csv"))
+reference_joined = reference_joined.to_csv((output_path / f"{reference_name}_processed.csv"), index = False)
+current_joined = current_joined.to_csv((output_path / f"{current_name}_processed.csv"), index = False)
 
