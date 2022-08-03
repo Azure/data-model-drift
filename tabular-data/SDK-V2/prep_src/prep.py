@@ -119,4 +119,3 @@ print(f"Saving to{output_path}")
 
 reference_joined = reference_joined.to_csv((output_path / f"{reference_name}_processed.csv"), index = False)
 current_joined = current_joined.to_csv((output_path / f"{current_name}_processed.csv"), index = False)
-
