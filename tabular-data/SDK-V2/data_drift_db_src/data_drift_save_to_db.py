@@ -200,15 +200,21 @@ for col in columns:
 
     area, kde1_x, kde2_x, idx, x = distribution_intersection_area(ref_arr,curr_arr)
 
-    col_n = pd.Series(np.full(fill_value=col, shape=len(kde1_x)))
-    kde_overlap_n = pd.Series(np.full(fill_value=area, shape=len(kde1_x)))
-    drift_indication_n = pd.Series(np.full(fill_value=drift_indication, shape=len(kde1_x)))
-    threshold_n = pd.Series(np.full(fill_value=threshold, shape=len(kde1_x)))
+    # look up interval values and length of KDE array to generate sequences
+    array_len = len(kde1_x)
+
+    col_n = pd.Series(np.full(fill_value=col, shape=array_len))
+    kde_overlap_n = pd.Series(np.full(fill_value=area, shape=array_len))
+    drift_indication_n = pd.Series(np.full(fill_value=drift_indication, shape=array_len))
+    threshold_n = pd.Series(np.full(fill_value=threshold, shape=array_len))
 
 
     drift_db_n = pd.DataFrame([kde1_x, kde2_x, x]).T
     drift_db_n = pd.concat([col_n, drift_db_n, kde_overlap_n, drift_indication_n, threshold_n], axis=1)
-    drift_db_n.columns = ["column", "reference_kde_values", "current_kde_values", "range", "kde_overlap", "drift_indication", "p_val_threshold"]
+    drift_db_n.columns = [
+        "column", "reference_kde_values_y", "current_kde_values_y",
+         "x_axis", "kde_overlap", "drift_indication", "p_val_threshold"
+        ]
     drift_db.append(drift_db_n)
 
     col_n = pd.Series(np.full(fill_value=col, shape=len(x[idx])))
