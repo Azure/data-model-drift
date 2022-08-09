@@ -39,15 +39,15 @@ To connect your data source (coming from the AzureML Pipeline) to PowerBI, pleas
 - If you have a Windows OS, you can download this software for free via the Microsoft store.
 2. **Retrieve the data from your Blob Storage**
 - Under `Get data` , navigate to `more` , select `Azure` and finally select `Azure Blob Storage`. You may need to log into Azure at this stage.
-- You will not get prompted to enter the name of the Blob. You can find the name of the storage account associated to your AML workspace in the Azure Portal. Copy this name and paste it into the text box.
-- You will now see multiple directories, choose the parent directory that contains the file. You can retrieve the exact location of the output file with the data drift database from the experiment that you launched via the CLI or .ipynb notebook.
+- You will now get prompted to enter the name of the Blob. You can find the name of the storage account associated to your AML workspace in the Azure Portal. Copy this name and paste it into the text box.
+- You will see multiple directories, choose the parent directory that contains the file. You can retrieve the exact location of the output file with the data drift database from the experiment that you launched via the CLI or .ipynb notebook.
 3. **Select the right file**
-- You will now see all files that are availble in the Blob parent directory that holds your experiments. To select the relevant file, click `transform data`. The Power Query prompt will now open.
-- In the Power Query prompt, filter under the column `name` by pressing on the inverted triangle sign. Select `text filters` and then `contains`. Now paste the full path to the file starting after the parent directory. It could look something like `azureml/<BLOB ID>/pipeline_job_store_data_drift/drift_db_processed.csv`
+- You will can now see all files that are availble in the Blob parent directory that holds your experiments. To select the relevant file, click `transform data`. The Power Query prompt will now open.
+- In Power Query, filter under the column `name` by pressing on the inverted triangle sign. Select `text filters` and then `contains`. Now paste the full path to the file starting after the parent directory. It could look something like `azureml/<BLOB ID>/pipeline_job_store_data_drift/drift_db_processed.csv`
 - Power Query will return one file in the view now. Under the `content` header, click on the yellow `binary`sign.  
 - Power Query will import the .csv file from the Blob Storage. You now also have the chance to review the schema of the table and change columns as needed. Once you are finished, press `Close & Apply` in the top left pane. You have now established a live connection to your database.
 4. **Create a report**
-- Under reports you can now drag and drop the relevant columns to re-create the visuals. 
+- Under reports you can drag and drop the relevant columns to re-create the visuals. 
 - To create the KDE plots, start with filtering one specific column under filters. Then, select a `line chart` with the "current-" and "reference kde values" as y axis and "x axis" as x axis. 
 - For the KDE intersection percentage you can use a `Gauge chart`, select the "kde_overlap"column and aggregate by average. Since it's a constant columnm, the average will yield the actual value. Do not forget to apply the same filter settings (e.g. filter by one column) as you did in for the KDE intersection plot.
 - For the drift indication as well as the column name, you can select a `card` item. Select the first item. Similar to "kde_overlap", this is a constant value hence, the first value is the same as the rest of the data given the respective filter. Do not forget to apply the same filter settings (e.g. filter by one column) as you did in for the KDE intersection plot.
