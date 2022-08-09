@@ -31,7 +31,7 @@ Data and model drift management should be part of an overall MLOps solution. Her
 
 Based on the AzureML pipelines defined in [SDK-V2](tabular-data/SDK-V2), you can query the output data in PowerBI for an interactive view on potential data drift between your reference and current data. An exemplary report can look something like in the image below.
 
-<img src="media/data_drift_plot_PBI.png" alt="Data drift report in PowerBI" width="800"/>
+<img src="media/data-drift-plot-PBI.png" alt="Data drift report in PowerBI" width="800"/>
 
 To connect your data source (coming from the AzureML Pipeline) to PowerBI, please consider the following steps:
 
@@ -42,7 +42,7 @@ To connect your data source (coming from the AzureML Pipeline) to PowerBI, pleas
 - You will now get prompted to enter the name of the Blob. You can find the name of the storage account associated to your AML workspace in the Azure Portal. Copy this name and paste it into the text box.
 - You will see multiple directories, choose the parent directory that contains the file. You can retrieve the exact location of the output file with the data drift database from the experiment that you launched via the CLI or .ipynb notebook.
 3. **Select the right file**
-- You will can now see all files that are availble in the Blob parent directory that holds your experiments. To select the relevant file, click `transform data`. The Power Query prompt will now open.
+- You will now see all files that are availble in the Blob parent directory that holds your experiments. To select the relevant file, click `transform data`. The Power Query prompt will now open.
 - In Power Query, filter under the column `name` by pressing on the inverted triangle sign. Select `text filters` and then `contains`. Now paste the full path to the file starting after the parent directory. It could look something like `azureml/<BLOB ID>/pipeline_job_store_data_drift/drift_db_processed.csv`
 - Power Query will return one file in the view now. Under the `content` header, click on the yellow `binary`sign.  
 - Power Query will import the .csv file from the Blob Storage. You now also have the chance to review the schema of the table and change columns as needed. Once you are finished, press `Close & Apply` in the top left pane. You have now established a live connection to your database.
