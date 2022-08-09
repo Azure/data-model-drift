@@ -231,6 +231,10 @@ intersection_db = pd.concat(intersection_db)
 
 print(f"Saving to{drift_db_path}")
 date = time.strftime("%Y-%m-%d")
-drift_db = drift_db.to_csv((Path(drift_db_path) / f"drift_db_processed_{date}.csv"), index = False)
-intersection_db = intersection_db.to_csv((Path(drift_db_path) / f"intersection_db_processed_{date}.csv"), index = False)
+# Log with date
+#drift_db = drift_db.to_csv((Path(drift_db_path) / f"drift_db_processed_{date}.csv"), index = False)
+#intersection_db = intersection_db.to_csv((Path(drift_db_path) / f"intersection_db_processed_{date}.csv"), index = False)
+# Overwrite
+drift_db = drift_db.to_csv((Path(drift_db_path) / "drift_db_processed.csv"), index = False)
+intersection_db = intersection_db.to_csv((Path(drift_db_path) / "intersection_db_processed.csv"), index = False)
 

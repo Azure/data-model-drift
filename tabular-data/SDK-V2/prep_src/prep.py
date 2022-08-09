@@ -21,8 +21,8 @@ parser.add_argument('--output_path', type=str)
 #parser.add_argument('--shortlist',nargs='*', type=none_or_str, default=[])
 args = parser.parse_args()
 
-input_path = Path(args.input_path)
-output_path = Path(args.output_path)
+input_path = args.input_path
+output_path = args.output_path
 
 lines = [
     f"Input path: {input_path}",
@@ -117,5 +117,6 @@ current_joined = pd.concat([current[numerical_columns], current_le], axis=1)
 #Path(output_path).mkdir(parents=True, exist_ok=True)
 print(f"Saving to{output_path}")
 
-reference_joined = reference_joined.to_csv((output_path / f"{reference_name}_processed.csv"), index = False)
-current_joined = current_joined.to_csv((output_path / f"{current_name}_processed.csv"), index = False)
+reference_joined = reference_joined.to_csv((Path(output_path) / f"{reference_name}_processed.csv"), index = False)
+current_joined = current_joined.to_csv((Path(output_path) / f"{current_name}_processed.csv"), index = False)
+
