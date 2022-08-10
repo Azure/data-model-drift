@@ -27,7 +27,7 @@ jobs:
     inputs:
       input_path: #using local data, will crate an anonymous data asset
         type: uri_folder
-        path: ../data/data_raw/predictive_maintenance/
+        path: azureml://datastores/workspaceblobstore/paths/data_drift/inputs/
     outputs:
       output_path: 
         type: uri_folder 
