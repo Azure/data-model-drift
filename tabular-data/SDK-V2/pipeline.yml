@@ -1,0 +1,57 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+display_name: data_drift_pipeline_cliv2
+description: Monitor data drift between reference and current dataset
+
+# <inputs_and_outputs>
+
+outputs: 
+  drift_db_path: 
+    type: uri_folder 
+    mode: upload 
+  drift_plot_path: 
+    type: uri_folder 
+    mode: upload
+# </inputs_and_outputs>
+
+# <jobs>
+settings:
+  default_datastore: azureml:workspaceblobstore
+  default_compute: azureml:cpu-cluster
+  continue_on_step_failure: false
+
+jobs:
+  prep_job:
+    type: command
+    component: file:./prep_data.yml
+    inputs:
+      input_path: #using local data, will crate an anonymous data asset
+        type: uri_folder
+        path: azureml://datastores/workspaceblobstore/paths/data_drift/inputs/
+    outputs:
+      output_path: 
+        type: uri_folder 
+        mode: upload
+
+  plot_drift_job:
+    type: command
+    component: file:./data_drift.yml
+    inputs:
+      tansformed_data_path: ${{parent.jobs.prep_job.outputs.output_path}}
+      threshold: 0.01
+    outputs:
+      output_path: 
+        type: uri_folder 
+        mode: upload
+
+  store_drift_db:
+    type: command
+    component: file:./data_drift_db.yml
+    inputs:
+      tansformed_data_path: ${{parent.jobs.prep_job.outputs.output_path}}
+      threshold: 0.01
+    outputs:
+      drift_db_path: 
+        type: uri_folder 
+        mode: upload
+# </jobs>
