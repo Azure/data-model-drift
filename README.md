@@ -27,7 +27,7 @@ Data and model drift management should be part of an overall MLOps solution. Her
 1. MLOps with Python SDK v2 (preview) & CLI v2  [SDK-V2](tabular-data/SDK-V2)
 2. MLOps with Python SDK v1 [SDK-V1](tabular-data/SDK-V1)
 
-### 5. Connect AzureML pipelines to data drift dashboard in PowerBI
+### 4. Connect AzureML pipelines to data drift dashboard in PowerBI
 
 Based on the AzureML pipelines defined in [SDK-V2](tabular-data/SDK-V2), you can query the output data in PowerBI for an interactive view on potential data drift between your reference and current data. An exemplary report can look something like in the image below.
 
