@@ -147,17 +147,17 @@ def none_or_str(value):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drift_plot_path', type=str)
-parser.add_argument('--tansformed_data_path', type=str)
+parser.add_argument('--transformed_data_path', type=str)
 parser.add_argument('--threshold', type=float)
 args = parser.parse_args()
 
 drift_plot_path = args.drift_plot_path
-tansformed_data_path = args.tansformed_data_path
+transformed_data_path = args.transformed_data_path
 threshold = args.threshold # flag a variable as drifted if p-value is below the threshold
 
 
 lines = [
-    f"Input path: {tansformed_data_path}",
+    f"Input path: {transformed_data_path}",
     f"Output path: {drift_plot_path}",
 ]
 
@@ -169,15 +169,15 @@ for line in lines:
 ###### LOAD DATASETS FROM PREVIOUS PIPELINE #####
 ##################################
 print("mounted_path files: ")
-arr = os.listdir(tansformed_data_path)
+arr = os.listdir(transformed_data_path)
 print(arr)
 
 df_list = []
 for filename in arr:
     if ".csv" in filename:
         print("reading file: %s ..." % filename)
-        with open(os.path.join(tansformed_data_path, filename), "r") as handle:
-            input_df = pd.read_csv((Path(tansformed_data_path) / filename))
+        with open(os.path.join(transformed_data_path, filename), "r") as handle:
+            input_df = pd.read_csv((Path(transformed_data_path) / filename))
             df_list.append(input_df)
 
 # Retrieve the current and reference datasets, those come from the previous pipeline
