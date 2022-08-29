@@ -5,7 +5,7 @@ display_name: Data_Model_Drift
 version: 1
 type: command
 inputs:
-  tansformed_data_path: 
+  transformed_data_path: 
     type: uri_folder
   threshold:
     type: number
@@ -17,7 +17,7 @@ code: ./data_drift_db_src
 environment: azureml:data-model-drift-env@latest
 command: >-
   python data_drift_save_to_db.py 
-  --tansformed_data_path ${{inputs.tansformed_data_path}} 
+  --transformed_data_path ${{inputs.transformed_data_path}} 
   --threshold ${{inputs.threshold}}
   --drift_db_path ${{outputs.drift_db_path}}
 # </component>

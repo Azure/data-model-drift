@@ -37,7 +37,7 @@ jobs:
     type: command
     component: file:./data_drift.yml
     inputs:
-      tansformed_data_path: ${{parent.jobs.prep_job.outputs.output_path}}
+      transformed_data_path: ${{parent.jobs.prep_job.outputs.output_path}}
       threshold: 0.01
     outputs:
       output_path: 
@@ -48,7 +48,7 @@ jobs:
     type: command
     component: file:./data_drift_db.yml
     inputs:
-      tansformed_data_path: ${{parent.jobs.prep_job.outputs.output_path}}
+      transformed_data_path: ${{parent.jobs.prep_job.outputs.output_path}}
       threshold: 0.01
     outputs:
       drift_db_path: 
